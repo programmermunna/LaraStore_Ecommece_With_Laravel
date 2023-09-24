@@ -48,6 +48,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
       <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
       <script src="{{ asset('admin/assets/js/config.js')}}"></script>
+      
 
 
       <!-- Core CSS -->
@@ -55,8 +56,9 @@
       <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
       <link rel="stylesheet" href="{{ asset('admin/assets/css/demo.css')}}" />
       
-      @vite(['resources/sass/app.scss', 'resources/js/app.js'])
       <link rel="stylesheet" href="{{ asset('admin/assets/css/custom.css')}}" />
+      <link rel="stylesheet" href="{{ asset('global/css/toast.css')}}" />
+
     </head>
   <body>
 
@@ -421,12 +423,9 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper">
-
-
-            
-        @yield('content')
-      </div>
+          <div class="content-wrapper">            
+          @yield('content')
+          </div>
 
           <!-- Footer -->
         <footer class="content-footer footer bg-footer-theme">
@@ -477,17 +476,51 @@
     <!-- Vendors JS -->
     <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js')}}"></script> 
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
     <!-- Main JS -->
     <script src="{{ asset('admin/assets/js/main.js')}}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('admin/assets/js/dashboards-analytics.js')}}"></script>
+    <script src="{{ asset('global/js/toast.js')}}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+  @if (Session::has('success'))
+  <script>
+    toastr.options = {
+      "progressBar" : true,
+      "closeButton" : true,
+    }
+    toastr.success("{{ Session::get('success') }}");
+  </script>
+  @elseif(Session::has('error'))
+  <script>
+    toastr.options = {
+      "progressBar" : true,
+      "closeButton" : true,
+    }
+    toastr.error("{{ Session::get('error') }}");
+  </script>
+  @elseif(Session::has('warning'))
+  <script>
+    toastr.options = {
+      "progressBar" : true,
+      "closeButton" : true,
+    }
+    toastr.warning("{{ Session::get('warning') }}");
+  </script>  
+  @elseif(Session::has('message'))
+  <script>
+    toastr.options = {
+      "progressBar" : true,
+      "closeButton" : true,
+    }
+    toastr.info("{{ Session::get('message') }}");
+  </script>  
+  @endif
+
+
   </body>
 </html>
