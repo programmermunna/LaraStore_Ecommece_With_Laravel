@@ -15,11 +15,12 @@ class PersonsController extends Controller
     }
 
     public function Search(Request $request){
+        $search = $request->search;
         $persons = User::where('name', 'LIKE', '%' . $request->search . '%')
         ->orWhere('email', 'LIKE', '%' . $request->search . '%')
         ->orWhere('phone', 'LIKE', '%' . $request->search . '%')
-        ->latest()->paginate(100);
-        return view('admin.content.persons.persons',compact('persons'));
+        ->latest()->get();
+        return view('admin.content.persons.persons',compact('persons','search'));
     }
 
     public function Add(){

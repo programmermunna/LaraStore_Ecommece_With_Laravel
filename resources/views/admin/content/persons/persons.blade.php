@@ -2,14 +2,14 @@
 @section('page_title') Admin-Persons @endsection
 @section('content')
 <div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
+    <div  class="container-xxl flex-grow-1 container-p-y">
       <div class="card">
         <div class="d-flex justify-content-between p-4">
           <h5 class="">All Persons</h5>
           <form action="{{ route('admin.person_search') }}" method="POST">
             @csrf
             <div class="input-group">
-              <input name="search" type="text" class="form-control" placeholder="Search Here...">
+              <input required name="search" type="text" class="form-control" placeholder="Search Here..." value="@if (isset($search)){{ $search }} @endif">
               <button class="btn btn-outline-primary" type="submit">Search</button>
             </div>
           </form>
@@ -58,6 +58,7 @@
           </table>
           <br>
           
+          @if (!isset($search))          
           <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm justify-content-center">
                 <li class="page-item prev @if ($persons->onFirstPage()) disabled @endif">
@@ -75,6 +76,7 @@
                 </li>
             </ul>
           </nav>
+          @endif
 
           
 
