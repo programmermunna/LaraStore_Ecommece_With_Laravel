@@ -9,15 +9,46 @@
           <form action="{{ route('admin.person_search') }}" method="POST">
             @csrf
             <div class="input-group">
-              <input required name="search" type="text" class="form-control" placeholder="Search Here..." value="@if (isset($search)){{ $search }} @endif">
+              <input required name="search" type="text" class="form-control" placeholder="Search Here..." value="@if (isset($search))@if ($search == 0 || $search == 1)@else{{ $search }}@endif @endif">
               <button class="btn btn-outline-primary" type="submit">Search</button>
             </div>
           </form>
         </div>
         <div class="d-flex justify-content-between p-4">          
-          <div>
+          <div class="d-flex justify-content-between gap-4">
             <a href="{{ route('admin.person_index') }}" class="btn btn-primary">&#8634 Refresh</a>
-            <a href="#" class="btn btn-primary">Fillter</a>
+            <form action="{{ route('admin.person_search') }}" class="role_form" method="POST">
+              @csrf
+              <input type="hidden" name="hidden_select" value="hidden_select">
+            <select name="search" class="btn btn-primary role_select">
+
+              <option selected value=""> 
+                @if (isset($search))
+                @if ($search == 1)
+                  Admin
+                @elseif($search == 0)
+                  User
+                  @else
+                  Filter Role
+                @endif
+              @else
+                Filter Role
+              @endif
+            </option>             
+
+              <option value="0">User</option>
+              <option value="1">Admin</option>
+            </select>
+            </form>
+
+            <script>
+              $(document).ready(function(){
+                $('.role_select').change(function(){
+                    $('.role_form').submit();
+                });
+              });
+            </script>
+
           </div>
           <a href="{{ route('admin.person_add') }}" class="btn btn-primary">Add New Person</a>
         </div>

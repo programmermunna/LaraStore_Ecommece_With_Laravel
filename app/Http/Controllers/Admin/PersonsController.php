@@ -16,10 +16,17 @@ class PersonsController extends Controller
 
     public function Search(Request $request){
         $search = $request->search;
-        $persons = User::where('name', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('email', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('phone', 'LIKE', '%' . $request->search . '%')
-        ->latest()->get();
+        $hidden_select = $request->hidden_select;
+        if(isset($hidden_select)){
+            $persons = User::where('role', '=', $request->search)->latest()->get();
+        }else{
+            $persons = User::where('name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('phone', 'LIKE', '%' . $request->search . '%')
+            ->latest()->get();
+        }
+
+        
         return view('admin.content.persons.persons',compact('persons','search'));
     }
 
@@ -104,7 +111,7 @@ class PersonsController extends Controller
             'image' => $imageName,
         ]);
 
-        return redirect()->route('admin.person_index')->with('success','Person added successfully');
+        return redirect()->route('admin.person_index')->with('success','Person Edited successfully');
     }
 
 

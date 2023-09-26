@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/apex-charts/apex-charts.css')}}" />
     
     <!-- config -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('admin/assets/vendor/js/helpers.js')}}"></script>
     <script src="{{ asset('admin/assets/js/config.js')}}"></script> 
 
