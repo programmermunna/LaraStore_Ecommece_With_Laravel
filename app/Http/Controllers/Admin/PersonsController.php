@@ -125,6 +125,10 @@ class PersonsController extends Controller
         }
 
         User::findOrFail($id)->delete();        
-        return redirect()->route('admin.person_index')->with('success','Person added successfully');
+        return redirect()->route('admin.person_index')->with('success','Person Deleted successfully');
+    }
+
+    public function DeleteAll(Request $request){
+        return $request;
     }
 }

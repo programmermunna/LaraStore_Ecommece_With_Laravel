@@ -14,27 +14,38 @@
             </div>
           </form>
         </div>
+        
+
         <div class="d-flex justify-content-between p-4">          
           <div class="d-flex justify-content-between gap-4">
             <a href="{{ route('admin.person_index') }}" class="btn btn-primary">&#8634 Refresh</a>
+            <a href="#!"  onclick="deleteAll()" class="btn btn-primary">Delete All</a>
             <form action="{{ route('admin.person_search') }}" class="role_form" method="POST">
               @csrf
               <input type="hidden" name="hidden_select" value="hidden_select">
             <select name="search" class="btn btn-primary role_select">
 
+              @php
+                $i = 0;
+                foreach($persons as $data){
+                  $i++;
+                }
+              @endphp
+
+
               <option selected value=""> 
                 @if (isset($search))
                 @if ($search == 1)
-                  Admin
+                  Admin ({{ $i }})
                 @elseif($search == 0)
-                  User
+                  User ({{ $i }})
                   @else
-                  Filter Role
+                  Filter Role ({{ $i }})
                 @endif
               @else
-                Filter Role
+                Filter Role ({{ $i }})
               @endif
-            </option>             
+            </option>
 
               <option value="0">User</option>
               <option value="1">Admin</option>
@@ -56,6 +67,7 @@
           <table class="table table-hover">
             <thead>
               <tr>
+                <th><input class="select_all" type="checkbox"></th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -67,6 +79,7 @@
             <tbody class="table-border-bottom-0">
               @foreach ($persons as $data)
               <tr>
+                <td><input class="checkbox" name="checkboxAll[]" type="checkbox"></td>
                 <td><img style="width: 40px" src="{{ asset('images/'.$data->image.'') }}" alt="Avatar" class="rounded-circle" /></td>
                 <td><strong>{{ $data->name }}</strong></td>
                 <td>{{ $data->email }}</td>
@@ -81,7 +94,7 @@
                 </td>
                 <td>
                   <a href="{{ route('admin.person_edit',$data->id) }}"><i class="bx bx-edit-alt me-1"></i>Edit</a> |
-                  <a href="{{ route('admin.person_delete',$data->id) }}"><i class="bx bx-trash me-1"></i>Delete</a>                
+                  <a onclick="salert({{ $data->id }})" href="#!" ><i class="bx bx-trash me-1 delet_btn"></i>Delete</a>                
                 </td>
               </tr>
               @endforeach

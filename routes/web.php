@@ -30,6 +30,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
         Route::get('person-edit/{id}','Edit')->name('admin.person_edit');
         Route::post('person-update','Update')->name('admin.person_update');
         Route::get('person-delete/{id}','Delete')->name('admin.person_delete');
+        Route::post('person-delete-all','DeleteAll')->name('admin.person_delete_all');
         Route::get('person-view','Person')->name('person_view');
         Route::post('person-search','Search')->name('admin.person_search');
     });

@@ -453,6 +453,7 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
+
 <!-- / Layout wrapper -->
 
     <!-- All JS --> 
@@ -466,7 +467,8 @@
     <!-- endbuild -->
    
     <!-- Vendors JS -->
-    <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js')}}"></script> 
+    <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('admin/assets/js/main.js')}}"></script>
@@ -512,6 +514,91 @@
     toastr.info("{{ Session::get('message') }}");
   </script>  
   @endif
+
+
+  
+<script>
+
+$('.select_all').on('click',function(){
+          if(this.checked){
+              $('.checkbox').each(function(){
+                  this.checked = true;
+              });
+          }else{
+              $('.checkbox').each(function(){
+                  this.checked = false;
+              });
+          }
+      });
+
+      $('.checkbox').on('click',function(){
+          if($('.checkbox:checked').length == $('.checkbox').length){
+              $('.select_all').prop('checked',true);
+          }else{
+              $('.select_all').prop('checked',false);
+          }
+      });
+
+
+  function salert($id){
+    console.log($id);
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        $.ajax({
+                    url: 'person-delete/' + $id,
+                    type: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) { 
+                      console.log(response);                       
+                        Swal.fire(
+                            'Deleted!',
+                            'Your row has been deleted.',
+                            'success'
+                        );
+                        window.location.replace("/admin/persons");
+                    },
+                    error: function (xhr) {
+                      console.log(xhr)
+                        Swal.fire(
+                            'Error!',
+                            'There was an error deleting the row.',
+                            'error'
+                        );
+                    }
+                  });
+      }
+    })
+  }
+
+
+ 
+
+  function deleteAll(){
+    
+    checkboxes.each(function(index) {
+  // Inside this function, "this" refers to the current checkbox element
+    console.log("Checkbox " + (index + 1) + " is checked: " + $(this).prop('checked'));
+    });
+    
+    // var checkedBoxes = $('.checkbox');
+    // checkedBoxes.eq(0).prop('checked', true);
+    // console.log(checkedBoxes);
+  }
+
+</script>
+
+  
 
 
   </body>
